@@ -4,16 +4,16 @@ const triggers = require('./triggers.json')
 const custom = require("./models/custom.js");
 const Levels = require("discord-xp-fix");
 Levels.setURL(config.mongoPass)
-let fetch = require("node-fetch"); //bot list server count
-/*const Constants = require("discord.js/src/util/Constants.js")// green online thingy
-Constants.DefaultOptions.ws.properties.$browser = 'Discord Android';*/
 const db = require("quick.db")
 const fs = require("fs");
-const bot = new Discord.Client();
 
+const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 bot.snipes = new Discord.Collection();
+
+/*const Constants = require("discord.js/src/util/Constants.js")// green online thingy
+Constants.DefaultOptions.ws.properties.$browser = 'Discord Android';*/
 
 fs.readdir("./commands/", (err, files) => {
 
@@ -76,9 +76,7 @@ bot.once('ready', () => {
 
 //xp system
 bot.on("message", async message => {
-  function emoji (id){
-    return bot.emojis.cache.get(id).toString()
-  }
+
   let prefixes = JSON.parse(fs.readFileSync("./prefixes.json", "utf8"));
   if (message.guild == null) return
   if (!prefixes[message.guild.id]) {
@@ -98,11 +96,11 @@ bot.on("message", async message => {
   const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
   /*if (hasLeveledUp) {
     const user = await Levels.fetch(message.author.id, message.guild.id);
-    message.channel.send(`${message.author}, GG! You just leveled up to **${user.level}** ${emoji("726173991022362745")}`);
+    message.channel.send(`${message.author}, GG! You just leveled up to **${user.level}** <:happyyikes:741426708716191815>`);
   }*/
 })
 
-//the good shit
+//message event: triggers, commands, custom triggers
 bot.on("message", async message => {  
   let blacklist = await db.fetch(`blacklist_${message.author.id}`)
   if (blacklist === "Blacklisted"){
@@ -123,7 +121,7 @@ bot.on("message", async message => {
   let prefix = prefixes[message.guild.id].prefix;
   
   if(message.content === "<@!692440402988630057>"||message.content ==="<@692440402988630057>"){
-    message.channel.send(`my prefix is ${prefix} \n\`${prefix}help to get list of commands\``)
+    message.channel.send(`my prefix is ${prefix} \n\`${prefix}help to get list of commands\` <:happyyikes:741426708716191815>)`)
   }
 
   //triggers
@@ -165,22 +163,6 @@ bot.on("message", async message => {
   if (commandfile) commandfile.run(bot, message, args);
   if (message.author.bot || message.channel.type === "dm") return; //if the message channel is a DM the commands and triggers will not work
 
-  const sender = message.author
-  const embed = new Discord.MessageEmbed();
-  embed.setColor("00FFFF")
-  embed.setTitle("Commands Using !")
-  embed.addField('Command User:', `\`\`\`${sender.tag}\`\`\``, true)
-  embed.addField('Id:', `\`\`\`(${sender.id})\`\`\``, true)
-  embed.addField('Ran a command:', `\`\`\`${cmd}\`\`\``, true)
-  embed.addField('In guild', `\`\`\`${message.guild.name}\`\`\`'`, true)
-  embed.addField('Guild ID', `\`\`\`${message.guild.id}\`\`\``, true)
-  embed.addField('Channel ID', `\`\`\`${message.channel.id}\`\`\``, true)
-  embed.setTimestamp()
-  
-  //bot.shard.broadcastEval(`this.channels.cache.get('789141220098179113')`).then( results => results.send(embed)).catch(console.error);
-
-  //bot.channels.cache.get('731259195441020981').send(embed);
-
   if (bot.commands.has(cmd)) {
     command = bot.commands.get(cmd);
   } else if (bot.aliases.has(cmd)) {
@@ -193,13 +175,10 @@ bot.on("message", async message => {
   }
 })
 
-//the snipe command shit
 bot.on("messageDelete", async (message) => {
   require("./messageDelete")(message);
 });
 
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
-//process.on('unhandledRejection', error => {return});
 
-//bot.login(config.Not_Gay_Bot_token);
 bot.login(config.bot_token);
