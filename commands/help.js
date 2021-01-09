@@ -18,15 +18,15 @@ module.exports.run = async (bot, message, args) => {
   if (!name) {
     let embed = new Discord.MessageEmbed()
       .setTitle(`Gay_Bot help list`)
-      .setURL('https://discord.gg/83G45qt5Ja')
       .setThumbnail('https://i.imgur.com/TEMgqPM.png')
       .setColor('48bdbd')
-      .addField("Triggers", "`trigger`,`ct`", true)
+      .addField("Triggers", "`ct`,`trigger`,`pgtriggers`", true)
       .addField("Moderation", "`kick`,`ban`,`clear`")
       .addField("Currency", "`balance`,`beg`,`daily`\n   `deposit`,`gamble`,`pay`\n   `rob`,`rich`,`shop`\n  `sell`,`inventory`,`withdraw`", true)
       .addField("XP", "`rank`,`leaderboard`", true)
+      .addField("Config", "`blacklist`,`config`, `prefix`,   `setMessage`,`setRole`,`setWelcome`")
       .addField("Fun", "`8ball`,`blackjack`,`cats`,  `coinflip`,`cuddle`,`darkmemes`,  `dance`,`jojodance`,`jojo`,  `dogs`,`fact`,`gay`,   `hug`,`kill`,`kiss`,   `meme`,`pp`,`snipe`,   `waifu`,`virgin`")
-      .addField("Misc", "`about`,`all_info`,`avatar`,   `blacklist`,`help`,`ping`,   `prefix`,`serverinfo`,`stats`,   `userinfo`,`version`", true)
+      .addField("Misc", "`about`,`all_info`,`avatar`,   `help`,`ping`,`serverinfo`,   `stats`,`userinfo`,`verison`", true)
       .setFooter(`\nYou can send ${prefix}help [command name] to get info on a specific command!`, bot.user.displayAvatarURL());
 
     message.channel.send(embed);
@@ -61,11 +61,11 @@ module.exports.run = async (bot, message, args) => {
       .setTitle(`Gay_Bot help`)
       .setThumbnail('https://i.imgur.com/TEMgqPM.png')
       .setDescription('What is Gay_Bot? Gay_Bot is a bot that annoys eveyone in the server.')
-      .setURL('https://discord.gg/83G45qt5Ja')
+      .setURL('https://discord.gg/t8yz9UG')
       .addField(`Prefix:`, prefix)
-      .addField(`Support`, `\[Gay_Bot help server\]\(https://discord.gg/83G45qt5Ja\)`)
+      .addField(`Support`, `\[Gay_Bot help server\]\(https://discord.gg/t8yz9UG\)`)
       .addField(`Invite link`, `\[invite\]\(https://discord.com/api/oauth2/authorize?client_id=692440402988630057&permissions=2147483639&scope=bot\)`)
-      //.addField(`GitHub`, `\[click me\]\(https://github.com/00fffff/Gay_Bot\)`)
+      //.addField(`GitHub`, `\[bad code here\]\(https://github.com/cyan-1/Gay_Bot\)`)
       .addField(`Commands list`, `\`${prefix}help\` for the commands list`)
 
     message.channel.send(helpEmbed);

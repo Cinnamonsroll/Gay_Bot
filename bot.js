@@ -130,11 +130,16 @@ bot.on("message", async message => {
   if (!message.guild.me.hasPermission(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS", "READ_MESSAGE_HISTORY", "ATTACH_FILES"])) {
     return;
   }
+  
   if (message.author.bot) return;
   let triggerr = db.fetch(`triggerr_${message.guild.id}`)
+  let triggerrr = db.fetch(`triggerrr_${message.guild.id}`)
   if (!triggerr) triggerr = "on"
+
   if (message.author.id !== bot.user.id) {
-    if (message.content.toLowerCase() in triggers && triggerr === "on") {
+    if (message.content.toLowerCase() in PGtriggers && triggerrr === "pg" && triggerr === "on") {// pg triggers 
+      message.channel.send(PGtriggers[message.content.toLowerCase()]);
+    }else if (message.content.toLowerCase() in triggers && triggerr === "on" && triggerrr ==="off") {// normal triggers 
       message.channel.send(triggers[message.content.toLowerCase()]);
     }
   }
@@ -175,8 +180,12 @@ bot.on("message", async message => {
   }
 })
 
+bot.on('guildMemberAdd', async (member) => {
+  require("./events/guildMemberAdd")(member);
+});
+
 bot.on("messageDelete", async (message) => {
-  require("./messageDelete")(message);
+  require("./events/messageDelete")(message);
 });
 
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
