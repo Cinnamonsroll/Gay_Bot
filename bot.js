@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const config = require('./config.json');
-const triggers = require('./triggers.json')
+const triggers = require('./triggersPOG/triggers.json')
+const PGtriggers = require('./triggersPOG/triggers_pg.json')
 const custom = require("./models/custom.js");
 const Levels = require("discord-xp-fix");
 Levels.setURL(config.mongoPass)
@@ -130,7 +131,7 @@ bot.on("message", async message => {
   if (!message.guild.me.hasPermission(["SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS", "READ_MESSAGE_HISTORY", "ATTACH_FILES"])) {
     return;
   }
-  
+
   if (message.author.bot) return;
   let triggerr = db.fetch(`triggerr_${message.guild.id}`)
   let triggerrr = db.fetch(`triggerrr_${message.guild.id}`)
