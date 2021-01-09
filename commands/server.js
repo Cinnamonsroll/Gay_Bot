@@ -40,7 +40,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("a8ffff")
         .setAuthor(message.guild.name, message.guild.iconURL({dynamic: true}))
         .setThumbnail(message.guild.iconURL({dynamic: true}))
-        .addField('Owner', message.guild.owner.user.tag, true)
+        .addField('Owner', `<@${message.guild.ownerID}>`, true)
         .addField('Server ID', message.guild.id)
         .addField('Members', message.guild.memberCount - bots, true)
         .addField('Bot Count', bots, true)

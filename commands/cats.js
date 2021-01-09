@@ -1,35 +1,49 @@
 const Discord = require('discord.js');
-const got = require("got");
+const querystring = require('querystring');
+const r2 = require('r2');
 module.exports.run = async (bot, message, args) => {
-    if (!message.channel.permissionsFor(message.guild.me).toArray().includes("SEND_MESSAGES", "VIEW_CHANNEL", "EMBED_LINKS", "ATTACH_FILES")) return;
-    if (!message.guild.me.hasPermission(["SEND_MESSAGES", "ATTACH_FILES", "EMBED_LINKS"])) {
-        return;
-    }
-    let MEME = [
-        'https://www.reddit.com/r/cats/random/.json',
-        'https://www.reddit.com/r/blackcats/random/.json',
-        'https://www.reddit.com/r/kitty/random/.json',
-    ]
-    let ree = MEME[Math.floor(Math.random() * MEME.length)];
-    const embed = new Discord.MessageEmbed()
-    got(ree).then(response => {
-        let content = JSON.parse(response.body);
-        let permalink = content[0].data.children[0].data.permalink;
-        let memeUrl = `https://reddit.com${permalink}`;
-        let memeImage = content[0].data.children[0].data.url;
-        let memeTitle = content[0].data.children[0].data.title;
+    const DOG_API_URL = "https://api.thecatapi.com/"
+    const DOG_API_KEY = "6ba807a4-15c1-4de3-a225-2b8716305cc4";
 
-        embed.setTitle(`KITTY`)
-        embed.setURL(`${memeUrl}`)
-        embed.setImage(memeImage)
+    try {
+        var images = await loadImage(message.author.username);
+
+        var image = images[0];
+
+        const embed = new Discord.MessageEmbed()
+        embed.setTitle(`kitty`)
+        embed.setURL(`${image.url}`)
+        embed.setImage(image.url)
         embed.setColor('AQUA')
-        embed.setFooter("KITTY :D")
-        try {
-            message.channel.send(embed);
-        } catch (e) {
-            return;
+
+        message.channel.send(embed);
+
+    } catch (error) {
+        console.log(error)
+    }
+
+    async function loadImage(sub_id) {
+        var headers = {
+            'X-API-KEY': DOG_API_KEY,
         }
-    })
+        var query_params = {
+            'has_breeds': true,
+            'mime_types': 'jpg,png',
+            'size': 'small',
+            'sub_id': sub_id,
+            'limit': 1
+        }
+
+        let queryString = querystring.stringify(query_params);
+
+        try {
+            let _url = DOG_API_URL + `v1/images/search?${queryString}`;
+            var response = await r2.get(_url, { headers }).json
+        } catch (e) {
+            console.log(e)
+        }
+        return response;
+    }
 }
 
 module.exports.help = {

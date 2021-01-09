@@ -122,7 +122,7 @@ bot.on("message", async message => {
   let prefix = prefixes[message.guild.id].prefix;
   
   if(message.content === "<@!692440402988630057>"||message.content ==="<@692440402988630057>"){
-    message.channel.send(`my prefix is ${prefix} \n\`${prefix}help to get list of commands\` <:happyyikes:741426708716191815>)`)
+    message.channel.send(`my prefix is ${prefix} \n\`${prefix}help to get list of commands\` <:happyyikes:741426708716191815>`)
   }
 
   //triggers
