@@ -175,6 +175,7 @@ bot.on("message", async message => {
     command = bot.commands.get(bot.aliases.get(cmd))
   }
   try {
+	  let state=db.fetch(`${message.guild.id}_${command.help.name}`);if(state&&state==="disabled")return message.channel.send("Command is disabled scrub")
     command.run(bot, message, args);
   } catch (e) {
     return;
